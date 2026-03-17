@@ -1,0 +1,8 @@
+2026-03-17 18:36:21,266 - INFO - Datos guardados en data/news.json
+2026-03-17 18:36:21,266 - INFO - ===== MÉTRICAS =====
+2026-03-17 18:36:21,266 - INFO - status_code: 200
+2026-03-17 18:36:21,266 - INFO - html_size: 618128
+2026-03-17 18:36:21,266 - INFO - articles_found: 34
+2026-03-17 18:36:21,266 - INFO - articles_saved: 34
+2026-03-17 18:36:21,266 - INFO - duration_seconds: 0.13
+2026-03-17 18:36:21,266 - INFO - success: True

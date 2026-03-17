@@ -4,7 +4,7 @@ import json
 import os
 import logging
 import time
-from datetime import datetime
+from datetime import datetime, UTC
 from dotenv import load_dotenv
 
 # =========================
@@ -95,7 +95,7 @@ def parse_news(html: str) -> list:
             results.append({
                 "title": title,
                 "link": link,
-                "scraped_at": datetime.utcnow().isoformat()
+                "scraped_at": datetime.now(UTC).isoformat()
             })
 
     metrics["articles_found"] = len(articles)
@@ -148,8 +148,16 @@ def main():
 
     validate_env()
 
+    if URL is None:
+        logging.error("URL no está disponible")
+        metrics["duration_seconds"] = round(time.time() - start_time, 2)
+        print_metrics()
+        return
+
     html = get_html(URL)
-    if not html:
+    if html is None:
+        metrics["duration_seconds"] = round(time.time() - start_time, 2)
+        print_metrics()
         return
 
     data = parse_news(html)
