@@ -4,16 +4,17 @@ import json
 import os
 import logging
 import time
-from datetime import datetime, UTC
+from datetime import datetime
+from typing import cast
 from dotenv import load_dotenv
 
 # =========================
-# Configuración inicial
+# Configuración
 # =========================
 
 load_dotenv()
 
-URL = os.getenv("SCRAPER_URL")
+URL = cast(str, os.getenv("SCRAPER_URL"))
 OUTPUT_FILE = os.getenv("OUTPUT_FILE", "data/news.json")
 LOG_FILE = os.getenv("LOG_FILE", "scraper.log")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
@@ -22,6 +23,10 @@ USER_AGENT = os.getenv("USER_AGENT", "Mozilla/5.0")
 SELECTOR = os.getenv("CSS_SELECTOR", "h2 a")
 MIN_HTML_SIZE = int(os.getenv("MIN_HTML_SIZE", 1000))
 MIN_ARTICLES = int(os.getenv("MIN_ARTICLES", 1))
+
+# Control de ejecución
+EXECUTION_LOG_FILE = os.getenv("EXECUTION_LOG_FILE", "execution_log.json")
+MIN_INTERVAL = int(os.getenv("MIN_INTERVAL_SECONDS", 300))
 
 # =========================
 # Logging
@@ -50,17 +55,62 @@ metrics = {
 }
 
 # =========================
-# Funciones
+# Funciones de control
+# =========================
+
+def load_execution_log():
+    """Carga historial de ejecuciones desde JSON."""
+    if not os.path.exists(EXECUTION_LOG_FILE):
+        return []
+
+    try:
+        with open(EXECUTION_LOG_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        logging.error(f"Error leyendo log de ejecución: {e}")
+        return []
+
+
+def save_execution_log(entry: dict):
+    """Guarda una nueva ejecución en la bitácora."""
+    log = load_execution_log()
+    log.append(entry)
+
+    with open(EXECUTION_LOG_FILE, "w", encoding="utf-8") as f:
+        json.dump(log, f, indent=2)
+
+
+def can_execute() -> tuple:
+    """Valida si se puede ejecutar según intervalo mínimo."""
+    log = load_execution_log()
+
+    if not log:
+        return True, None
+
+    last_execution = log[-1]
+    last_time = datetime.fromisoformat(last_execution["timestamp"])
+    now = datetime.utcnow()
+
+    diff = (now - last_time).total_seconds()
+
+    if diff < MIN_INTERVAL:
+        return False, f"Ejecutado hace {round(diff, 2)}s. Esperar {MIN_INTERVAL}s"
+
+    return True, None
+
+
+# =========================
+# Funciones principales
 # =========================
 
 def validate_env():
-    """Valida que las variables críticas estén definidas."""
+    """Valida variables críticas."""
     if not URL:
         raise ValueError("SCRAPER_URL no está definido en .env")
 
 
 def get_html(url: str) -> str | None:
-    """Obtiene el HTML desde la URL."""
+    """Obtiene HTML desde la URL."""
     try:
         headers = {"User-Agent": USER_AGENT}
         response = requests.get(url, headers=headers, timeout=TIMEOUT)
@@ -81,7 +131,7 @@ def get_html(url: str) -> str | None:
 
 
 def parse_news(html: str) -> list:
-    """Parsea el HTML y extrae noticias."""
+    """Parsea HTML y extrae noticias."""
     soup = BeautifulSoup(html, "html.parser")
     articles = soup.select(SELECTOR)
 
@@ -95,7 +145,7 @@ def parse_news(html: str) -> list:
             results.append({
                 "title": title,
                 "link": link,
-                "scraped_at": datetime.now(UTC).isoformat()
+                "scraped_at": datetime.utcnow().isoformat()
             })
 
     metrics["articles_found"] = len(articles)
@@ -105,7 +155,7 @@ def parse_news(html: str) -> list:
 
 
 def validate_data(data: list) -> tuple:
-    """Valida calidad de los datos."""
+    """Valida calidad de datos."""
     if metrics["status_code"] != 200:
         return False, "HTTP status inválido"
 
@@ -122,7 +172,7 @@ def validate_data(data: list) -> tuple:
 
 
 def save_json(data: list):
-    """Guarda los datos en JSON."""
+    """Guarda datos en JSON."""
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
@@ -148,10 +198,10 @@ def main():
 
     validate_env()
 
-    if URL is None:
-        logging.error("URL no está disponible")
-        metrics["duration_seconds"] = round(time.time() - start_time, 2)
-        print_metrics()
+    # Control de ejecución
+    allowed, reason = can_execute()
+    if not allowed:
+        logging.warning(f"Ejecución bloqueada: {reason}")
         return
 
     html = get_html(URL)
@@ -165,6 +215,8 @@ def main():
     valid, error = validate_data(data)
     if not valid:
         logging.error(f"Validación fallida: {error}")
+        metrics["duration_seconds"] = round(time.time() - start_time, 2)
+        print_metrics()
         return
 
     save_json(data)
@@ -173,6 +225,14 @@ def main():
     metrics["duration_seconds"] = round(time.time() - start_time, 2)
 
     print_metrics()
+
+    # Guardar bitácora
+    execution_entry = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "metrics": metrics
+    }
+
+    save_execution_log(execution_entry)
 
 
 if __name__ == "__main__":

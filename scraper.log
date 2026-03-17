@@ -6,3 +6,13 @@
 2026-03-17 18:36:21,266 - INFO - articles_saved: 34
 2026-03-17 18:36:21,266 - INFO - duration_seconds: 0.13
 2026-03-17 18:36:21,266 - INFO - success: True
+2026-03-17 18:48:39,219 - INFO - Datos guardados en data/news.json
+2026-03-17 18:48:39,219 - INFO - ===== MÉTRICAS =====
+2026-03-17 18:48:39,219 - INFO - status_code: 200
+2026-03-17 18:48:39,220 - INFO - html_size: 619802
+2026-03-17 18:48:39,220 - INFO - articles_found: 34
+2026-03-17 18:48:39,220 - INFO - articles_saved: 34
+2026-03-17 18:48:39,220 - INFO - duration_seconds: 0.27
+2026-03-17 18:48:39,220 - INFO - success: True
+2026-03-17 18:48:43,883 - WARNING - Ejecución bloqueada: Ejecutado hace 4.66s. Esperar 300s
+2026-03-17 18:48:45,646 - WARNING - Ejecución bloqueada: Ejecutado hace 6.43s. Esperar 300s

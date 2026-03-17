@@ -1,0 +1,13 @@
+[
+  {
+    "timestamp": "2026-03-17T23:48:39.220133",
+    "metrics": {
+      "status_code": 200,
+      "html_size": 619802,
+      "articles_found": 34,
+      "articles_saved": 34,
+      "duration_seconds": 0.27,
+      "success": true
+    }
+  }
+]
