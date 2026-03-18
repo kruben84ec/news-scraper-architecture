@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NewsMonitor — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Syne+Mono&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─── Reset & tokens ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0d0f0e;
+    --surface:   #141714;
+    --surface2:  #1a1e1a;
+    --border:    #252a25;
+    --border2:   #2e352e;
+
+    --text:      #e8ece7;
+    --muted:     #7a8a79;
+    --faint:     #3a443a;
+
+    --amber:     #e8a832;
+    --amber-dim: #7a5518;
+    --green:     #3ecf72;
+    --green-dim: #1a5c33;
+    --red:       #e85b3a;
+    --red-dim:   #6b2818;
+    --blue:      #5ba8e8;
+    --blue-dim:  #1e3f5c;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body:    'DM Sans', sans-serif;
+    --font-mono:    'Syne Mono', monospace;
+
+    --radius:   10px;
+    --radius-lg: 16px;
+  }
+
+  html { font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── Grain overlay ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: .025;
+  }
+
+  /* ─── Layout ─── */
+  .shell {
+    position: relative; z-index: 1;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px 48px;
+  }
+
+  /* ─── Header ─── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--amber);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-mark svg { width: 20px; height: 20px; }
+  .logo-text {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--text);
+  }
+  .logo-text span { color: var(--amber); }
+
+  .header-right {
+    display: flex; align-items: center; gap: 20px;
+  }
+  .clock {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    color: var(--muted);
+    letter-spacing: .04em;
+  }
+  .status-pill {
+    display: flex; align-items: center; gap: 6px;
+    font-size: .72rem;
+    font-weight: 500;
+    color: var(--green);
+    background: rgba(62,207,114,.08);
+    border: 1px solid rgba(62,207,114,.2);
+    border-radius: 999px;
+    padding: 4px 12px;
+  }
+  .status-pill::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .5; transform: scale(.8); }
+  }
+
+  /* ─── Section label ─── */
+  .section-label {
+    font-family: var(--font-display);
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── Metric cards ─── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+    cursor: default;
+  }
+  .metric-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-2px);
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent, var(--border));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .metric-card.accent-amber  { --accent: var(--amber); }
+  .metric-card.accent-green  { --accent: var(--green); }
+  .metric-card.accent-red    { --accent: var(--red); }
+  .metric-card.accent-blue   { --accent: var(--blue); }
+  .metric-card.accent-muted  { --accent: var(--faint); }
+
+  .metric-label {
+    font-size: .7rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .metric-value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .metric-value.sm { font-size: 1.15rem; }
+  .metric-sub {
+    font-size: .7rem;
+    color: var(--muted);
+  }
+
+  .badge {
+    display: inline-flex; align-items: center;
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+  .badge.success { background: rgba(62,207,114,.12); color: var(--green); }
+  .badge.warning { background: rgba(232,168,50,.12);  color: var(--amber); }
+  .badge.error   { background: rgba(232,91,58,.12);   color: var(--red);   }
+
+  /* ─── Execution log strip ─── */
+  .exec-strip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    margin-bottom: 40px;
+    overflow-x: auto;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .exec-strip-label {
+    font-size: .65rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .exec-dot {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    position: relative;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  .exec-dot:hover { transform: scale(1.2); }
+  .exec-dot.ok   { background: var(--green-dim); border: 1px solid var(--green); }
+  .exec-dot.fail { background: var(--red-dim);   border: 1px solid var(--red);   }
+  .exec-dot .tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%; transform: translateX(-50%);
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: .65rem;
+    font-family: var(--font-mono);
+    color: var(--text);
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .exec-dot:hover .tooltip { display: block; }
+
+  /* ─── Carousel section ─── */
+  .carousel-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .carousel-title {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1.1;
+  }
+  .carousel-title span { color: var(--amber); }
+  .carousel-count {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .carousel-nav {
+    display: flex; gap: 8px;
+  }
+  .nav-btn {
+    width: 36px; height: 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+    flex-shrink: 0;
+  }
+  .nav-btn:hover { background: var(--surface2); border-color: var(--border2); }
+  .nav-btn:active { transform: scale(.95); }
+  .nav-btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+  .carousel-track-wrap {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    position: relative;
+  }
+  .carousel-track {
+    display: flex;
+    gap: 16px;
+    transition: transform .45s cubic-bezier(.25,.8,.25,1);
+    will-change: transform;
+  }
+
+  /* ─── News card ─── */
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    flex: 0 0 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    cursor: pointer;
+    transition: border-color .2s, transform .25s, box-shadow .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .news-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    opacity: 0;
+    transition: opacity .25s;
+  }
+  .news-card:hover {
+    border-color: var(--amber-dim);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+  }
+  .news-card:hover::after { opacity: 1; }
+
+  .card-id {
+    font-family: var(--font-mono);
+    font-size: .62rem;
+    color: var(--faint);
+    letter-spacing: .05em;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--text);
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .card-date {
+    font-size: .68rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+  }
+  .card-link-btn {
+    display: flex; align-items: center; gap: 4px;
+    font-size: .68rem;
+    font-weight: 500;
+    color: var(--amber);
+    text-decoration: none;
+    transition: opacity .15s;
+  }
+  .card-link-btn:hover { opacity: .7; }
+  .card-link-btn svg { width: 11px; height: 11px; stroke: currentColor; stroke-width: 2.5; fill: none; }
+
+  .card-number {
+    position: absolute;
+    top: 20px; right: 20px;
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--faint);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ─── Carousel dots ─── */
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--faint);
+    transition: background .2s, transform .2s, width .2s;
+    cursor: pointer;
+  }
+  .dot.active {
+    background: var(--amber);
+    width: 20px;
+    border-radius: 3px;
+  }
+
+  /* ─── Bottom grid ─── */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 40px;
+  }
+  @media (max-width: 800px) { .bottom-grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+  }
+  .panel-title {
+    font-family: var(--font-display);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  /* Bar chart */
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .bar-label {
+    font-size: .7rem;
+    color: var(--muted);
+    width: 110px;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width .8s cubic-bezier(.25,.8,.25,1);
+  }
+  .bar-val {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    color: var(--muted);
+    width: 28px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Latest runs table */
+  .runs-table { width: 100%; border-collapse: collapse; }
+  .runs-table th {
+    font-size: .65rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-align: left;
+    padding: 0 8px 10px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .runs-table td {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    color: var(--text);
+    padding: 9px 8px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .runs-table tr:last-child td { border-bottom: none; }
+
+  /* ─── Empty / loading ─── */
+  .placeholder {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px;
+    padding: 48px 24px;
+    color: var(--muted);
+    font-size: .85rem;
+    text-align: center;
+  }
+  .placeholder svg { width: 40px; height: 40px; stroke: var(--faint); fill: none; }
+
+  /* ─── Scrollbar ─── */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* ─── File loader ─── */
+  .loader-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .loader-label {
+    font-size: .7rem; color: var(--muted);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+  .loader-btn {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .loader-btn:hover { background: var(--surface2); }
+  input[type="file"] { display: none; }
+  .loader-file-name {
+    font-size: .68rem;
+    color: var(--green);
+    font-family: var(--font-mono);
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20" fill="none" stroke="#0d0f0e" stroke-width="2" stroke-linecap="round">
+          <rect x="2" y="2" width="7" height="7" rx="1.5"/>
+          <rect x="11" y="2" width="7" height="7" rx="1.5"/>
+          <rect x="2" y="11" width="7" height="7" rx="1.5"/>
+          <rect x="11" y="11" width="7" height="4" rx="1.5"/>
+        </svg>
+      </div>
+      <span class="logo-text">News<span>Monitor</span></span>
+    </div>
+    <div class="header-right">
+      <span class="clock" id="clock">--:--:--</span>
+      <span class="status-pill" id="status-pill">Sin datos</span>
+    </div>
+  </header>
+
+  <!-- FILE LOADERS -->
+  <div class="loader-bar">
+    <span class="loader-label">news.json</span>
+    <button class="loader-btn" onclick="document.getElementById('file-news').click()">Cargar archivo</button>
+    <input type="file" id="file-news" accept=".json" onchange="loadNewsFile(this)">
+    <span class="loader-file-name" id="news-file-name"></span>
+
+    <span class="loader-label" style="margin-left:12px">execution_log.json</span>
+    <button class="loader-btn" onclick="document.getElementById('file-log').click()">Cargar archivo</button>
+    <input type="file" id="file-log" accept=".json" onchange="loadLogFile(this)">
+    <span class="loader-file-name" id="log-file-name"></span>
+
+    <button class="loader-btn" style="margin-left:auto;color:var(--muted)" onclick="loadDemoData()">Demo</button>
+  </div>
+
+  <!-- METRICS -->
+  <div class="section-label">Métricas · última ejecución</div>
+  <div class="metrics-grid" id="metrics-grid">
+    <div class="placeholder" style="grid-column:1/-1;padding:24px">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <span>Carga execution_log.json para ver métricas</span>
+    </div>
+  </div>
+
+  <!-- EXECUTION HISTORY -->
+  <div class="section-label">Historial de ejecuciones</div>
+  <div class="exec-strip" id="exec-strip">
+    <span class="exec-strip-label">RUNS →</span>
+    <span style="font-size:.7rem;color:var(--faint);font-family:var(--font-mono)">sin datos</span>
+  </div>
+
+  <!-- CAROUSEL -->
+  <div class="carousel-header">
+    <div>
+      <div class="carousel-count" id="carousel-count">0 noticias</div>
+      <div class="carousel-title">Últimas <span>Noticias</span></div>
+    </div>
+    <div class="carousel-nav">
+      <button class="nav-btn" id="prev-btn" onclick="moveCarousel(-1)" title="Anterior">
+        <svg viewBox="0 0 16 16"><polyline points="10,3 5,8 10,13"/></svg>
+      </button>
+      <button class="nav-btn" id="next-btn" onclick="moveCarousel(1)" title="Siguiente">
+        <svg viewBox="0 0 16 16"><polyline points="6,3 11,8 6,13"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="carousel-track-wrap">
+    <div class="carousel-track" id="carousel-track">
+      <div class="news-card" style="pointer-events:none;opacity:.5">
+        <!-- <div class="card-number">01</div> -->
+        <div class="card-id">---- ---- ---- ----</div>
+        <div class="card-title" style="color:var(--muted)">Carga news.json para ver las noticias scrapeadas</div>
+        <div class="card-footer">
+          <span class="card-date">--/--/----</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="carousel-dots" id="carousel-dots"></div>
+
+  <!-- BOTTOM PANELS -->
+  <div class="bottom-grid">
+    <!-- Bar chart: artículos por ejecución -->
+    <div class="panel">
+      <div class="panel-title">Artículos nuevos por ejecución</div>
+      <div id="bar-chart">
+        <div class="placeholder"><svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="3,18 8,12 13,15 21,6"/><line x1="3" y1="18" x2="21" y2="18"/></svg><span>sin datos</span></div>
+      </div>
+    </div>
+
+    <!-- Latest runs table -->
+    <div class="panel">
+      <div class="panel-title">Últimas ejecuciones</div>
+      <div id="runs-table-wrap">
+        <div class="placeholder"><svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="4" x2="8" y2="9"/></svg><span>sin datos</span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /shell -->
+
+<script>
+// ─── State ───────────────────────────────────────────────────
+let newsData = [];
+let execData = [];
+let carouselIndex = 0;
+const CARDS_VISIBLE = () => Math.max(1, Math.floor((window.innerWidth - 80) / 336));
+
+// ─── Clock ───────────────────────────────────────────────────
+function tickClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString('es-EC', { hour12: false });
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+// ─── File loaders ────────────────────────────────────────────
+function loadNewsFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      newsData = JSON.parse(e.target.result);
+      document.getElementById('news-file-name').textContent = `✓ ${file.name} (${newsData.length})`;
+      renderCarousel();
+      updateStatusPill();
+    } catch {
+      alert('JSON inválido en news.json');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function loadLogFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      execData = JSON.parse(e.target.result);
+      document.getElementById('log-file-name').textContent = `✓ ${file.name} (${execData.length} runs)`;
+      renderMetrics();
+      renderExecStrip();
+      renderBarChart();
+      renderRunsTable();
+      updateStatusPill();
+    } catch {
+      alert('JSON inválido en execution_log.json');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ─── Demo data ───────────────────────────────────────────────
+function loadDemoData() {
+  newsData = Array.from({ length: 24 }, (_, i) => ({
+    id: crypto.randomUUID(),
+    title: [
+      'Ecuador busca acuerdos comerciales con la Unión Europea para potenciar exportaciones de banano y cacao',
+      'Gobierno anuncia plan de infraestructura vial por 800 millones en tres provincias de la costa',
+      'Selección ecuatoriana clasifica a cuartos de final en la Copa América con récord de goles',
+      'Nuevas medidas de seguridad en Guayaquil reducen los índices de criminalidad en un 18%',
+      'Investigadores de la ESPOL desarrollan biocombustible a base de microalgas amazónicas',
+      'Precio del petróleo afecta presupuesto 2025: Ministerio de Finanzas revisa proyecciones',
+      'Festival Internacional de Artes Vivas regresa a Quito con 40 compañías de 12 países',
+      'Sequía en la cuenca del Pastaza pone en alerta a comunidades indígenas de la región',
+    ][i % 8],
+    link: `https://www.eluniverso.com/noticia-${i + 1}`,
+    scraped_at: new Date(Date.now() - i * 3600000 * 4).toISOString(),
+  }));
+
+  execData = Array.from({ length: 12 }, (_, i) => ({
+    timestamp: new Date(Date.now() - i * 3600000 * 5).toISOString(),
+    metrics: {
+      status_code: i === 3 ? 503 : 200,
+      html_size: 42000 + Math.floor(Math.random() * 8000),
+      articles_found: 24 + Math.floor(Math.random() * 10),
+      articles_new: i === 3 ? 0 : 4 + Math.floor(Math.random() * 8),
+      articles_duplicated: 18 + Math.floor(Math.random() * 6),
+      articles_total_stored: newsData.length + i * 4,
+      duration_seconds: +(1.2 + Math.random() * 2).toFixed(2),
+      success: i !== 3,
+    }
+  })).reverse();
+
+  document.getElementById('news-file-name').textContent = `✓ demo (${newsData.length})`;
+  document.getElementById('log-file-name').textContent = `✓ demo (${execData.length} runs)`;
+  renderCarousel();
+  renderMetrics();
+  renderExecStrip();
+  renderBarChart();
+  renderRunsTable();
+  updateStatusPill();
+}
+
+// ─── Status pill ─────────────────────────────────────────────
+function updateStatusPill() {
+  const pill = document.getElementById('status-pill');
+  if (!execData.length) return;
+  const last = execData[execData.length - 1];
+  if (last.metrics.success) {
+    pill.textContent = 'Activo';
+    pill.style.color = 'var(--green)';
+    pill.style.background = 'rgba(62,207,114,.08)';
+    pill.style.borderColor = 'rgba(62,207,114,.2)';
+  } else {
+    pill.textContent = 'Error';
+    pill.style.color = 'var(--red)';
+    pill.style.background = 'rgba(232,91,58,.08)';
+    pill.style.borderColor = 'rgba(232,91,58,.2)';
+  }
+}
+
+// ─── Metrics ─────────────────────────────────────────────────
+function renderMetrics() {
+  if (!execData.length) return;
+  const last = execData[execData.length - 1];
+  const m = last.metrics;
+  const ts = new Date(execData[execData.length - 1].timestamp);
+
+  const cards = [
+    {
+      label: 'Total almacenadas',
+      value: m.articles_total_stored ?? newsData.length,
+      sub: 'noticias en el JSON',
+      accent: 'accent-amber',
+    },
+    {
+      label: 'Nuevas esta ejecución',
+      value: m.articles_new ?? '—',
+      sub: `${m.articles_duplicated ?? 0} duplicadas ignoradas`,
+      accent: 'accent-green',
+    },
+    {
+      label: 'Artículos detectados',
+      value: m.articles_found ?? '—',
+      sub: 'en el HTML scrapeado',
+      accent: 'accent-blue',
+    },
+    {
+      label: 'HTTP status',
+      value: m.status_code ?? '—',
+      badge: m.status_code === 200 ? { text: 'OK', cls: 'success' } : { text: 'ERROR', cls: 'error' },
+      sub: `${((m.html_size ?? 0) / 1024).toFixed(1)} KB descargados`,
+      accent: m.status_code === 200 ? 'accent-green' : 'accent-red',
+    },
+    {
+      label: 'Duración',
+      value: `${m.duration_seconds ?? '—'}s`,
+      sub: 'tiempo de ejecución',
+      accent: 'accent-muted',
+      sm: true,
+    },
+    {
+      label: 'Última ejecución',
+      value: ts.toLocaleTimeString('es-EC', { hour12: false }),
+      sub: ts.toLocaleDateString('es-EC', { day:'2-digit', month:'short', year:'numeric' }),
+      accent: 'accent-muted',
+      sm: true,
+    },
+    {
+      label: 'Total ejecuciones',
+      value: execData.length,
+      sub: `${execData.filter(e => e.metrics.success).length} exitosas`,
+      accent: 'accent-muted',
+      sm: true,
+    },
+    {
+      label: 'Resultado',
+      value: m.success ? 'OK' : 'FAIL',
+      badge: m.success ? { text: 'success', cls: 'success' } : { text: 'failed', cls: 'error' },
+      sub: 'última ejecución',
+      accent: m.success ? 'accent-green' : 'accent-red',
+      sm: true,
+    },
+  ];
+
+  document.getElementById('metrics-grid').innerHTML = cards.map(c => `
+    <div class="metric-card ${c.accent}" style="animation:fadeUp .4s ease both">
+      <div class="metric-label">${c.label}</div>
+      <div class="metric-value ${c.sm ? 'sm' : ''}">${c.value}</div>
+      ${c.badge ? `<span class="badge ${c.badge.cls}">${c.badge.text}</span>` : ''}
+      <div class="metric-sub">${c.sub}</div>
+    </div>
+  `).join('');
+}
+
+// ─── Execution strip ─────────────────────────────────────────
+function renderExecStrip() {
+  if (!execData.length) return;
+  const strip = document.getElementById('exec-strip');
+  const dots = execData.map((run, i) => {
+    const ts = new Date(run.timestamp);
+    const label = ts.toLocaleString('es-EC', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+    const cls = run.metrics.success ? 'ok' : 'fail';
+    return `<div class="exec-dot ${cls}" title="${label}">
+      <div class="tooltip">${label} · ${run.metrics.articles_new ?? 0} new · ${run.metrics.duration_seconds}s</div>
+    </div>`;
+  }).join('');
+
+  strip.innerHTML = `<span class="exec-strip-label">RUNS →</span>${dots}`;
+}
+
+// ─── Carousel ────────────────────────────────────────────────
+function renderCarousel() {
+  carouselIndex = 0;
+  const track = document.getElementById('carousel-track');
+  const dotsEl = document.getElementById('carousel-dots');
+
+  document.getElementById('carousel-count').textContent =
+    `${newsData.length} noticias`;
+
+  if (!newsData.length) {
+    track.innerHTML = `<div class="placeholder">sin noticias</div>`;
+    dotsEl.innerHTML = '';
+    return;
+  }
+
+  track.innerHTML = newsData.map((n, i) => {
+    const date = new Date(n.scraped_at);
+    const dateStr = date.toLocaleString('es-EC', {
+      day:'2-digit', month:'short', year:'numeric',
+      hour:'2-digit', minute:'2-digit'
+    });
+    const shortId = n.id ? n.id.split('-')[0].toUpperCase() : '--------';
+    return `
+      <div class="news-card" onclick="window.open('${n.link}','_blank')">
+        <div class="card-number">${String(i + 1).padStart(2, '0')}</div>
+        <div class="card-id">UUID · ${shortId}</div>
+        <div class="card-title">${escapeHtml(n.title)}</div>
+        <div class="card-footer">
+          <span class="card-date">${dateStr}</span>
+          <a class="card-link-btn" href="${n.link}" target="_blank" onclick="event.stopPropagation()">
+            Ver
+            <svg viewBox="0 0 12 12"><path d="M7 2h3v3M10 2L6 6M5 3H2v7h7V7"/></svg>
+          </a>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Dots
+  const pages = Math.ceil(newsData.length / CARDS_VISIBLE());
+  dotsEl.innerHTML = Array.from({ length: pages }, (_, i) =>
+    `<div class="dot ${i === 0 ? 'active' : ''}" onclick="jumpToPage(${i})"></div>`
+  ).join('');
+
+  updateCarouselPosition();
+}
+
+function moveCarousel(dir) {
+  const total = newsData.length;
+  const vis = CARDS_VISIBLE();
+  const max = Math.max(0, total - vis);
+  carouselIndex = Math.max(0, Math.min(carouselIndex + dir, max));
+  updateCarouselPosition();
+}
+
+function jumpToPage(page) {
+  carouselIndex = page * CARDS_VISIBLE();
+  updateCarouselPosition();
+}
+
+function updateCarouselPosition() {
+  const track = document.getElementById('carousel-track');
+  const cardW = 320 + 16; // card width + gap
+  track.style.transform = `translateX(-${carouselIndex * cardW}px)`;
+
+  // Update dots
+  const vis = CARDS_VISIBLE();
+  const currentPage = Math.floor(carouselIndex / vis);
+  document.querySelectorAll('.carousel-dots .dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentPage);
+  });
+
+  // Update nav btns
+  document.getElementById('prev-btn').style.opacity = carouselIndex === 0 ? '.3' : '1';
+  const max = Math.max(0, newsData.length - vis);
+  document.getElementById('next-btn').style.opacity = carouselIndex >= max ? '.3' : '1';
+}
+
+window.addEventListener('resize', () => {
+  if (newsData.length) updateCarouselPosition();
+});
+
+// ─── Bar chart ───────────────────────────────────────────────
+function renderBarChart() {
+  if (!execData.length) return;
+  const recent = execData.slice(-10);
+  const max = Math.max(...recent.map(e => e.metrics.articles_new ?? 0), 1);
+  const colors = ['var(--amber)', 'var(--green)', 'var(--blue)', 'var(--amber)', 'var(--green)'];
+
+  document.getElementById('bar-chart').innerHTML = recent.map((run, i) => {
+    const val = run.metrics.articles_new ?? 0;
+    const pct = (val / max * 100).toFixed(1);
+    const ts = new Date(run.timestamp);
+    const label = ts.toLocaleString('es-EC', { month:'short', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+    const color = run.metrics.success ? colors[i % colors.length] : 'var(--red)';
+    return `
+      <div class="bar-row">
+        <span class="bar-label">${label}</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:0%;background:${color}" data-width="${pct}%"></div>
+        </div>
+        <span class="bar-val">${val}</span>
+      </div>
+    `;
+  }).join('');
+
+  // Animate bars after paint
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.bar-fill').forEach(b => {
+        b.style.width = b.dataset.width;
+      });
+    });
+  });
+}
+
+// ─── Runs table ──────────────────────────────────────────────
+function renderRunsTable() {
+  if (!execData.length) return;
+  const recent = execData.slice(-8).reverse();
+  document.getElementById('runs-table-wrap').innerHTML = `
+    <table class="runs-table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Estado</th>
+          <th>Nuevas</th>
+          <th>Total</th>
+          <th>Duración</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${recent.map(run => {
+          const ts = new Date(run.timestamp);
+          const label = ts.toLocaleString('es-EC', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+          const ok = run.metrics.success;
+          return `
+            <tr>
+              <td>${label}</td>
+              <td><span class="badge ${ok ? 'success' : 'error'}">${ok ? 'OK' : 'FAIL'}</span></td>
+              <td style="color:var(--green)">+${run.metrics.articles_new ?? 0}</td>
+              <td>${run.metrics.articles_total_stored ?? '—'}</td>
+              <td style="color:var(--muted)">${run.metrics.duration_seconds}s</td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+// ─── Utils ───────────────────────────────────────────────────
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ─── Keyboard carousel ───────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') moveCarousel(1);
+  if (e.key === 'ArrowLeft')  moveCarousel(-1);
+});
+
+// ─── Touch / swipe ───────────────────────────────────────────
+let touchStartX = 0;
+document.querySelector('.carousel-track-wrap') && (() => {
+  const el = document.querySelector('.carousel-track-wrap');
+  el.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  el.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) moveCarousel(diff > 0 ? 1 : -1);
+  }, { passive: true });
+})();
+
+// Fade-up animation
+const style = document.createElement('style');
+style.textContent = '@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }';
+document.head.appendChild(style);
+</script>
+</body>
+</html>
