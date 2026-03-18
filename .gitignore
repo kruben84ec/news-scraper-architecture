@@ -1,1 +1,58 @@
+# ========================
+# Python & runtime
+# ========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# ========================
+# Virtual environment
+# ========================
 venv/
+.venv/
+env/
+.env.bak
+
+# ========================
+# Secrets & config
+# ========================
+.env
+.env.*
+!.env.example
+
+# ========================
+# Generated data & logs
+# ========================
+data/
+*.log
+execution_log.json
+
+# ========================
+# Testing & coverage
+# ========================
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+.tox/
+
+# ========================
+# Distribution & packaging
+# ========================
+dist/
+build/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# ========================
+# OS & editors
+# ========================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
