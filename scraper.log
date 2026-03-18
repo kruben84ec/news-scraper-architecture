@@ -85,3 +85,45 @@
 2026-03-17 19:55:39,583 - INFO - duration_seconds: 0.63
 2026-03-17 19:55:39,583 - INFO - success: True
 2026-03-17 19:55:42,792 - WARNING - Ejecución bloqueada: Ejecutado hace 3.21s. Esperar 300s
+2026-03-17 20:18:52,070 - INFO - Noticias existentes cargadas: 32
+2026-03-17 20:18:52,070 - INFO - Descargando imágenes para 0 artículos nuevos...
+2026-03-17 20:18:52,071 - INFO - JSON guardado en data/news.json (34 artículos en total)
+2026-03-17 20:18:52,071 - INFO - ===== MÉTRICAS =====
+2026-03-17 20:18:52,071 - INFO - status_code: 200
+2026-03-17 20:18:52,071 - INFO - html_size: 615688
+2026-03-17 20:18:52,071 - INFO - articles_found: 34
+2026-03-17 20:18:52,071 - INFO - articles_new: 2
+2026-03-17 20:18:52,071 - INFO - articles_duplicated: 32
+2026-03-17 20:18:52,071 - INFO - articles_total_stored: 34
+2026-03-17 20:18:52,071 - INFO - images_fetched: 0
+2026-03-17 20:18:52,071 - INFO - images_failed: 0
+2026-03-17 20:18:52,071 - INFO - duration_seconds: 0.47
+2026-03-17 20:18:52,071 - INFO - success: True
+2026-03-17 20:26:00,396 - INFO - Noticias existentes cargadas: 34
+2026-03-17 20:26:00,397 - INFO - Descargando imágenes para 0 artículos nuevos...
+2026-03-17 20:26:00,397 - INFO - JSON guardado en data/news.json (35 artículos en total)
+2026-03-17 20:26:00,397 - INFO - ===== MÉTRICAS =====
+2026-03-17 20:26:00,397 - INFO - status_code: 200
+2026-03-17 20:26:00,397 - INFO - html_size: 614258
+2026-03-17 20:26:00,397 - INFO - articles_found: 34
+2026-03-17 20:26:00,397 - INFO - articles_new: 1
+2026-03-17 20:26:00,397 - INFO - articles_duplicated: 33
+2026-03-17 20:26:00,397 - INFO - articles_total_stored: 35
+2026-03-17 20:26:00,397 - INFO - images_fetched: 0
+2026-03-17 20:26:00,397 - INFO - images_failed: 0
+2026-03-17 20:26:00,397 - INFO - duration_seconds: 0.37
+2026-03-17 20:26:00,397 - INFO - success: True
+2026-03-17 21:01:58,766 - INFO - Noticias existentes cargadas: 35
+2026-03-17 21:01:58,766 - INFO - Descargando imágenes para 0 artículos nuevos...
+2026-03-17 21:01:58,766 - INFO - JSON guardado en data/news.json (36 artículos en total)
+2026-03-17 21:01:58,766 - INFO - ===== MÉTRICAS =====
+2026-03-17 21:01:58,766 - INFO - status_code: 200
+2026-03-17 21:01:58,766 - INFO - html_size: 612520
+2026-03-17 21:01:58,767 - INFO - articles_found: 34
+2026-03-17 21:01:58,767 - INFO - articles_new: 1
+2026-03-17 21:01:58,767 - INFO - articles_duplicated: 33
+2026-03-17 21:01:58,767 - INFO - articles_total_stored: 36
+2026-03-17 21:01:58,767 - INFO - images_fetched: 0
+2026-03-17 21:01:58,767 - INFO - images_failed: 0
+2026-03-17 21:01:58,767 - INFO - duration_seconds: 0.13
+2026-03-17 21:01:58,767 - INFO - success: True

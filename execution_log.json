@@ -4,7 +4,7 @@
     "metrics": {
       "status_code": 200,
       "html_size": 616253,
-      "articles_found": 34,
+      "articles_found": 35,
       "articles_new": 31,
       "articles_duplicated": 3,
       "articles_total_stored": 31,
@@ -19,7 +19,7 @@
     "metrics": {
       "status_code": 200,
       "html_size": 616359,
-      "articles_found": 34,
+      "articles_found": 35,
       "articles_new": 0,
       "articles_duplicated": 34,
       "articles_total_stored": 31,
