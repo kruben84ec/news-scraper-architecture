@@ -38,3 +38,9 @@ source venv/bin/activate  # Mac/Linux
 venv\Scripts\activate     # Windows
 
 pip install -r requirements.txt
+
+crear servidor
+python3 -m http.server 8000
+
+abrir 
+http://localhost:8000/dashboard.html
