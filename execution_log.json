@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": "2026-03-18T00:34:37.327536",
+    "metrics": {
+      "status_code": 200,
+      "html_size": 616253,
+      "articles_found": 34,
+      "articles_new": 31,
+      "articles_duplicated": 3,
+      "articles_total_stored": 31,
+      "images_fetched": 0,
+      "images_failed": 0,
+      "duration_seconds": 0.1,
+      "success": true
+    }
+  },
+  {
+    "timestamp": "2026-03-18T00:48:33.810128",
+    "metrics": {
+      "status_code": 200,
+      "html_size": 616359,
+      "articles_found": 34,
+      "articles_new": 0,
+      "articles_duplicated": 34,
+      "articles_total_stored": 31,
+      "images_fetched": 0,
+      "images_failed": 0,
+      "duration_seconds": 0.52,
+      "success": true
+    }
+  }
+]
