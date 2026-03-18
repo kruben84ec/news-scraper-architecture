@@ -95,6 +95,10 @@ def can_execute() -> tuple:
 
     last_execution = log[-1]
     last_time = datetime.fromisoformat(last_execution["timestamp"])
+    # Los timestamps guardados antes de la corrección son naive (sin tzinfo).
+    # Si lo es, asumimos UTC y lo hacemos aware para poder restar.
+    if last_time.tzinfo is None:
+        last_time = last_time.replace(tzinfo=UTC)
     now = datetime.now(UTC)
     diff = (now - last_time).total_seconds()
 

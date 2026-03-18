@@ -85,3 +85,19 @@
 2026-03-17 19:55:39,583 - INFO - duration_seconds: 0.63
 2026-03-17 19:55:39,583 - INFO - success: True
 2026-03-17 19:55:42,792 - WARNING - Ejecución bloqueada: Ejecutado hace 3.21s. Esperar 300s
+2026-03-17 20:03:29,452 - INFO - Noticias existentes cargadas: 32
+2026-03-17 20:03:29,452 - INFO - Descargando imágenes para 0 artículos nuevos...
+2026-03-17 20:03:29,453 - INFO - JSON guardado en data/news.json (34 artículos en total)
+2026-03-17 20:03:29,453 - INFO - ===== MÉTRICAS =====
+2026-03-17 20:03:29,453 - INFO - status_code: 200
+2026-03-17 20:03:29,453 - INFO - html_size: 615781
+2026-03-17 20:03:29,453 - INFO - articles_found: 34
+2026-03-17 20:03:29,453 - INFO - articles_new: 2
+2026-03-17 20:03:29,453 - INFO - articles_duplicated: 32
+2026-03-17 20:03:29,453 - INFO - articles_total_stored: 34
+2026-03-17 20:03:29,453 - INFO - images_fetched: 0
+2026-03-17 20:03:29,453 - INFO - images_failed: 0
+2026-03-17 20:03:29,453 - INFO - duration_seconds: 0.42
+2026-03-17 20:03:29,453 - INFO - success: True
+2026-03-17 20:03:57,208 - WARNING - Ejecución bloqueada: Ejecutado hace 27.75s. Esperar 300s
+2026-03-17 20:06:20,227 - WARNING - Ejecución bloqueada: Ejecutado hace 170.77s. Esperar 300s
