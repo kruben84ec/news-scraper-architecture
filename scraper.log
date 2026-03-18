@@ -24,3 +24,4 @@
 2026-03-17 19:05:43,482 - INFO - articles_saved: 34
 2026-03-17 19:05:43,482 - INFO - duration_seconds: 0.31
 2026-03-17 19:05:43,482 - INFO - success: True
+2026-03-17 19:09:58,648 - WARNING - Ejecución bloqueada: Ejecutado hace 255.17s. Esperar 300s

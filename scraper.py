@@ -4,6 +4,7 @@ import json
 import os
 import logging
 import time
+import uuid
 from datetime import datetime
 from typing import cast
 from dotenv import load_dotenv
@@ -49,7 +50,9 @@ metrics = {
     "status_code": None,
     "html_size": 0,
     "articles_found": 0,
-    "articles_saved": 0,
+    "articles_new": 0,
+    "articles_duplicated": 0,
+    "articles_total_stored": 0,
     "duration_seconds": 0,
     "success": False
 }
@@ -62,7 +65,6 @@ def load_execution_log():
     """Carga historial de ejecuciones desde JSON."""
     if not os.path.exists(EXECUTION_LOG_FILE):
         return []
-
     try:
         with open(EXECUTION_LOG_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -75,7 +77,6 @@ def save_execution_log(entry: dict):
     """Guarda una nueva ejecución en la bitácora."""
     log = load_execution_log()
     log.append(entry)
-
     with open(EXECUTION_LOG_FILE, "w", encoding="utf-8") as f:
         json.dump(log, f, indent=2)
 
@@ -83,20 +84,78 @@ def save_execution_log(entry: dict):
 def can_execute() -> tuple:
     """Valida si se puede ejecutar según intervalo mínimo."""
     log = load_execution_log()
-
     if not log:
         return True, None
 
     last_execution = log[-1]
     last_time = datetime.fromisoformat(last_execution["timestamp"])
     now = datetime.utcnow()
-
     diff = (now - last_time).total_seconds()
 
     if diff < MIN_INTERVAL:
         return False, f"Ejecutado hace {round(diff, 2)}s. Esperar {MIN_INTERVAL}s"
 
     return True, None
+
+
+# =========================
+# Funciones de persistencia
+# =========================
+
+def load_existing_news() -> tuple[list, set]:
+    """
+    Carga las noticias ya guardadas en el JSON de salida.
+
+    Retorna una tupla con:
+      - lista completa de artículos existentes
+      - set de links ya almacenados (para deduplicación rápida O(1))
+    """
+    if not os.path.exists(OUTPUT_FILE):
+        return [], set()
+
+    try:
+        with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+            existing = json.load(f)
+        known_links = {article["link"] for article in existing if "link" in article}
+        logging.info(f"Noticias existentes cargadas: {len(existing)}")
+        return existing, known_links
+    except Exception as e:
+        logging.error(f"Error cargando noticias existentes: {e}")
+        return [], set()
+
+
+def merge_news(existing: list, new_articles: list) -> tuple[list, int, int]:
+    """
+    Combina noticias existentes con las nuevas, evitando duplicados por link.
+
+    La deduplicación usa el campo 'link' como clave única natural.
+    Cada artículo nuevo recibe un UUID v4 único e irrepetible.
+
+    Retorna:
+      - lista combinada final
+      - cantidad de artículos nuevos agregados
+      - cantidad de artículos ignorados por duplicado
+    """
+    known_links = {article["link"] for article in existing if "link" in article}
+
+    added = 0
+    duplicated = 0
+
+    for article in new_articles:
+        link = article.get("link")
+
+        if not link or link in known_links:
+            duplicated += 1
+            logging.debug(f"Duplicado ignorado: {link}")
+            continue
+
+        article["id"] = str(uuid.uuid4())
+        existing.append(article)
+        known_links.add(link)
+        added += 1
+        logging.debug(f"Nuevo artículo agregado [{article['id']}]: {article.get('title', '')[:60]}")
+
+    return existing, added, duplicated
 
 
 # =========================
@@ -114,7 +173,6 @@ def get_html(url: str) -> str | None:
     try:
         headers = {"User-Agent": USER_AGENT}
         response = requests.get(url, headers=headers, timeout=TIMEOUT)
-
         metrics["status_code"] = response.status_code
 
         if response.status_code == 200:
@@ -146,11 +204,10 @@ def parse_news(html: str) -> list:
                 "title": title,
                 "link": link,
                 "scraped_at": datetime.utcnow().isoformat()
+                # Nota: 'id' se asigna en merge_news() solo si es artículo nuevo
             })
 
     metrics["articles_found"] = len(articles)
-    metrics["articles_saved"] = len(results)
-
     return results
 
 
@@ -158,27 +215,23 @@ def validate_data(data: list) -> tuple:
     """Valida calidad de datos."""
     if metrics["status_code"] != 200:
         return False, "HTTP status inválido"
-
     if metrics["html_size"] < MIN_HTML_SIZE:
         return False, "HTML demasiado pequeño"
-
     if metrics["articles_found"] < MIN_ARTICLES:
         return False, "No se encontraron suficientes artículos"
-
     if not data:
         return False, "Lista de datos vacía"
-
     return True, None
 
 
 def save_json(data: list):
-    """Guarda datos en JSON."""
+    """Guarda la lista completa de noticias en el JSON de salida."""
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-    logging.info(f"Datos guardados en {OUTPUT_FILE}")
+    logging.info(f"JSON guardado en {OUTPUT_FILE} ({len(data)} artículos en total)")
 
 
 def print_metrics():
@@ -198,7 +251,6 @@ def main():
 
     validate_env()
 
-    # Control de ejecución
     allowed, reason = can_execute()
     if not allowed:
         logging.warning(f"Ejecución bloqueada: {reason}")
@@ -210,28 +262,34 @@ def main():
         print_metrics()
         return
 
-    data = parse_news(html)
+    scraped = parse_news(html)
 
-    valid, error = validate_data(data)
+    valid, error = validate_data(scraped)
     if not valid:
         logging.error(f"Validación fallida: {error}")
         metrics["duration_seconds"] = round(time.time() - start_time, 2)
         print_metrics()
         return
 
-    save_json(data)
+    # Cargar histórico, fusionar y guardar
+    existing, _ = load_existing_news()
+    merged, added, duplicated = merge_news(existing, scraped)
+
+    metrics["articles_new"] = added
+    metrics["articles_duplicated"] = duplicated
+    metrics["articles_total_stored"] = len(merged)
+
+    save_json(merged)
 
     metrics["success"] = True
     metrics["duration_seconds"] = round(time.time() - start_time, 2)
 
     print_metrics()
 
-    # Guardar bitácora
     execution_entry = {
         "timestamp": datetime.utcnow().isoformat(),
         "metrics": metrics
     }
-
     save_execution_log(execution_entry)
 
 
