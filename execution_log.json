@@ -9,5 +9,16 @@
       "duration_seconds": 0.27,
       "success": true
     }
+  },
+  {
+    "timestamp": "2026-03-18T00:05:43.482712",
+    "metrics": {
+      "status_code": 200,
+      "html_size": 619767,
+      "articles_found": 34,
+      "articles_saved": 34,
+      "duration_seconds": 0.31,
+      "success": true
+    }
   }
 ]
