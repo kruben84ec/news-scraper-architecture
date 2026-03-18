@@ -65,62 +65,188 @@
 
   /* ─── Header ─── */
   header {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
-    padding: 28px 0 24px;
+    gap: 28px;
+    padding: 20px 0;
     border-bottom: 1px solid var(--border);
-    margin-bottom: 36px;
+    margin-bottom: 20px;
   }
+
+  /* ── Logo ── */
   .logo {
     display: flex; align-items: center; gap: 12px;
   }
   .logo-mark {
-    width: 36px; height: 36px;
+    width: 40px; height: 40px;
     background: var(--amber);
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
+    box-shadow: 0 0 0 4px rgba(232,168,50,.12);
   }
-  .logo-mark svg { width: 20px; height: 20px; }
+  .logo-mark svg { width: 22px; height: 22px; }
   .logo-text {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 800;
-    letter-spacing: -.02em;
+    letter-spacing: -.03em;
     color: var(--text);
+    line-height: 1;
   }
   .logo-text span { color: var(--amber); }
+  .logo-sub {
+    font-family: var(--font-mono);
+    font-size: .6rem;
+    color: var(--faint);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
 
-  .header-right {
-    display: flex; align-items: center; gap: 20px;
+  /* ── Header centre: clock + date ── */
+  .header-centre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
   }
   .clock {
     font-family: var(--font-mono);
-    font-size: .75rem;
-    color: var(--muted);
-    letter-spacing: .04em;
+    font-size: 1.55rem;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: .06em;
+    line-height: 1;
   }
+  .clock-date {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    color: var(--muted);
+    letter-spacing: .06em;
+  }
+
+  /* ── Header right ── */
+  .header-right {
+    display: flex; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  /* last-updated block */
+  .last-updated {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
+    padding-right: 12px;
+    border-right: 1px solid var(--border);
+  }
+  .last-updated-label {
+    font-family: var(--font-mono);
+    font-size: .58rem;
+    color: var(--faint);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .last-updated-value {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--muted);
+    transition: color .3s;
+  }
+  .last-updated-value.fresh { color: var(--green); }
+
+  /* status pill */
   .status-pill {
     display: flex; align-items: center; gap: 6px;
-    font-size: .72rem;
+    font-size: .7rem;
     font-weight: 500;
     color: var(--green);
     background: rgba(62,207,114,.08);
     border: 1px solid rgba(62,207,114,.2);
     border-radius: 999px;
-    padding: 4px 12px;
+    padding: 5px 13px;
+    white-space: nowrap;
   }
   .status-pill::before {
     content: '';
     width: 6px; height: 6px;
-    background: var(--green);
+    background: currentColor;
     border-radius: 50%;
     animation: pulse 2s ease-in-out infinite;
   }
   @keyframes pulse {
     0%,100% { opacity: 1; transform: scale(1); }
     50%      { opacity: .5; transform: scale(.8); }
+  }
+
+  /* ── Data-bar toolbar ── */
+  .data-bar {
+    display: flex;
+    align-items: stretch;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .data-bar-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    flex: 1;
+    min-width: 0;
+    border-right: 1px solid var(--border);
+    transition: background .15s;
+  }
+  .data-bar-section:hover { background: var(--surface2); }
+  .dbs-icon {
+    width: 30px; height: 30px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .dbs-icon svg { width: 13px; height: 13px; stroke: var(--muted); fill: none; stroke-width: 1.5; }
+  .dbs-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .dbs-filename {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    color: var(--amber);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .dbs-status {
+    font-family: var(--font-mono);
+    font-size: .62rem;
+    color: var(--faint);
+    white-space: nowrap;
+    transition: color .2s;
+  }
+  .dbs-status.ok  { color: var(--green); }
+  .dbs-status.err { color: var(--red);   }
+  .btn-upload {
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 5px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 7px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color .15s, color .15s, background .15s;
+  }
+  .btn-upload:hover { border-color: var(--amber-dim); color: var(--amber); background: var(--bg); }
+  .btn-upload svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* actions cell at end of data-bar */
+  .data-bar-actions {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    flex-shrink: 0;
   }
 
   /* ─── Section label ─── */
@@ -546,55 +672,6 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
-  /* ─── Data source bar (replaces old file loader) ─── */
-  .data-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 10px 16px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-  }
-  .data-bar-path {
-    font-family: var(--font-mono);
-    font-size: .68rem;
-    color: var(--muted);
-    display: flex; align-items: center; gap: 6px;
-  }
-  .data-bar-path .path-file {
-    color: var(--amber);
-  }
-  .data-bar-path .path-sep {
-    color: var(--faint);
-  }
-  .data-bar-status {
-    font-family: var(--font-mono);
-    font-size: .68rem;
-    display: flex; align-items: center; gap: 5px;
-  }
-  .data-bar-status.ok   { color: var(--green); }
-  .data-bar-status.err  { color: var(--red);   }
-  .data-bar-status.idle { color: var(--faint); }
-
-  /* demo link */
-  .demo-link {
-    font-family: var(--font-mono);
-    font-size: .65rem;
-    color: var(--muted);
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    padding: 0;
-    margin-left: auto;
-    transition: color .15s;
-  }
-  .demo-link:hover { color: var(--text); }
-
   /* ─── Consultar button ─── */
   .btn-consultar {
     display: flex; align-items: center; gap: 7px;
@@ -626,26 +703,6 @@
   .btn-consultar.loading svg { animation: spin .7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ─── Last-updated stamp in header ─── */
-  .last-updated {
-    display: flex; flex-direction: column; align-items: flex-end;
-    gap: 1px;
-  }
-  .last-updated-label {
-    font-family: var(--font-mono);
-    font-size: .6rem;
-    color: var(--faint);
-    letter-spacing: .06em;
-    text-transform: uppercase;
-  }
-  .last-updated-value {
-    font-family: var(--font-mono);
-    font-size: .72rem;
-    color: var(--muted);
-    transition: color .3s;
-  }
-  .last-updated-value.fresh { color: var(--green); }
-
   /* ─── Toast notification ─── */
   .toast {
     position: fixed;
@@ -671,13 +728,6 @@
   .toast-ok  .toast-dot { background: var(--green); }
   .toast-err .toast-dot { background: var(--red); }
 
-  /* ─── File loader (hidden, keep for fallback) ─── */
-  input[type="file"] { display: none; }
-  .loader-file-name {
-    font-size: .68rem;
-    color: var(--green);
-    font-family: var(--font-mono);
-  }
 </style>
 </head>
 <body>
@@ -694,14 +744,22 @@
           <rect x="11" y="11" width="7" height="4" rx="1.5"/>
         </svg>
       </div>
-      <span class="logo-text">News<span>Monitor</span></span>
+      <div>
+        <div class="logo-text">News<span>Monitor</span></div>
+        <div class="logo-sub">Ecuador · El Universo</div>
+      </div>
     </div>
+
+    <div class="header-centre">
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="clock-date" id="clock-date">---</div>
+    </div>
+
     <div class="header-right">
       <div class="last-updated">
         <span class="last-updated-label">Última actualización</span>
         <span class="last-updated-value" id="last-updated-val">—</span>
       </div>
-      <span class="clock" id="clock">--:--:--</span>
       <button class="btn-consultar" id="btn-consultar" onclick="consultarAPI()">
         <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="1,4 1,1 4,1"/>
@@ -715,26 +773,55 @@
     </div>
   </header>
 
-  <!-- DATA SOURCE BAR -->
+  <!-- DATA TOOLBAR -->
   <div class="data-bar">
-    <span class="data-bar-path">
-      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 2h6l2 2v8H2z"/><line x1="4" y1="6" x2="10" y2="6"/><line x1="4" y1="9" x2="8" y2="9"/></svg>
-      <span class="path-file">data/news.json</span>
-      <span class="path-sep">·</span>
-      <span class="path-file">data/execution_log.json</span>
-    </span>
-    <span class="data-bar-status idle" id="data-bar-news">
-      ○ news — sin cargar
-    </span>
-    <span class="path-sep">·</span>
-    <span class="data-bar-status idle" id="data-bar-log">
-      ○ log — sin cargar
-    </span>
-    <button class="demo-link" onclick="loadDemoData()">cargar demo</button>
+
+    <!-- news.json -->
+    <div class="data-bar-section">
+      <div class="dbs-icon">
+        <svg viewBox="0 0 14 14"><path d="M2 2h6l2 2v8H2z"/><line x1="4" y1="6" x2="10" y2="6"/><line x1="4" y1="9" x2="8" y2="9"/></svg>
+      </div>
+      <div class="dbs-text">
+        <span class="dbs-filename">data/news.json</span>
+        <span class="dbs-status" id="data-bar-news">sin cargar</span>
+      </div>
+      <button class="btn-upload" onclick="document.getElementById('file-news').click()">
+        <svg viewBox="0 0 12 12"><polyline points="6,1 6,8"/><polyline points="3,4 6,1 9,4"/><path d="M1 9v1a1 1 0 001 1h8a1 1 0 001-1V9"/></svg>
+        Cargar
+      </button>
+    </div>
+
+    <!-- execution_log.json -->
+    <div class="data-bar-section">
+      <div class="dbs-icon">
+        <svg viewBox="0 0 14 14"><rect x="1" y="1" width="12" height="12" rx="2"/><line x1="4" y1="5" x2="10" y2="5"/><line x1="4" y1="7.5" x2="10" y2="7.5"/><line x1="4" y1="10" x2="7" y2="10"/></svg>
+      </div>
+      <div class="dbs-text">
+        <span class="dbs-filename">data/execution_log.json</span>
+        <span class="dbs-status" id="data-bar-log">sin cargar</span>
+      </div>
+      <button class="btn-upload" onclick="document.getElementById('file-log').click()">
+        <svg viewBox="0 0 12 12"><polyline points="6,1 6,8"/><polyline points="3,4 6,1 9,4"/><path d="M1 9v1a1 1 0 001 1h8a1 1 0 001-1V9"/></svg>
+        Cargar
+      </button>
+    </div>
+
+    <!-- actions -->
+    <div class="data-bar-actions">
+      <button class="btn-upload" onclick="autoLoad()" title="Reintentar precarga automática">
+        <svg viewBox="0 0 12 12"><polyline points="1,4 1,1 4,1"/><path d="M1 1 Q6 -1 10 3 Q13 7 11 11"/><polyline points="11,8 11,11 8,11"/></svg>
+        Auto
+      </button>
+      <button class="btn-upload" style="color:var(--muted)" onclick="loadDemoData()">
+        <svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5"/><polyline points="4,6 6,8 9,4"/></svg>
+        Demo
+      </button>
+    </div>
   </div>
-  <!-- hidden file inputs kept as fallback -->
-  <input type="file" id="file-news" accept=".json" onchange="loadNewsFile(this)">
-  <input type="file" id="file-log"  accept=".json" onchange="loadLogFile(this)">
+
+  <!-- hidden file inputs -->
+  <input type="file" id="file-news" accept=".json" onchange="loadNewsFile(this)" style="display:none">
+  <input type="file" id="file-log"  accept=".json" onchange="loadLogFile(this)"  style="display:none">
 
   <!-- METRICS -->
   <div class="section-label">Métricas · última ejecución</div>
@@ -823,8 +910,11 @@ const CARDS_VISIBLE = () => Math.max(1, Math.floor((window.innerWidth - 80) / 33
 
 // ─── Clock ───────────────────────────────────────────────────
 function tickClock() {
+  const now = new Date();
   document.getElementById('clock').textContent =
-    new Date().toLocaleTimeString('es-EC', { hour12: false });
+    now.toLocaleTimeString('es-EC', { hour12: false });
+  document.getElementById('clock-date').textContent =
+    now.toLocaleDateString('es-EC', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
 }
 setInterval(tickClock, 1000);
 tickClock();
@@ -857,7 +947,7 @@ function setLastUpdated(isoOrDate) {
 // ─── Data-bar status ─────────────────────────────────────────
 function setDataBarStatus(id, ok, msg) {
   const el = document.getElementById(id);
-  el.className = `data-bar-status ${ok ? 'ok' : 'err'}`;
+  el.className = `dbs-status ${ok ? 'ok' : 'err'}`;
   el.textContent = `${ok ? '✓' : '✗'} ${msg}`;
 }
 
