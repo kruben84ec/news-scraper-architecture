@@ -5,7 +5,9 @@ import os
 import logging
 import time
 import uuid
-from datetime import datetime
+import base64
+from urllib.parse import urljoin, urlparse
+from datetime import datetime, UTC
 from typing import cast
 from dotenv import load_dotenv
 
@@ -22,11 +24,12 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", 10))
 USER_AGENT = os.getenv("USER_AGENT", "Mozilla/5.0")
 SELECTOR = os.getenv("CSS_SELECTOR", "h2 a")
+IMAGE_SELECTOR = os.getenv("IMAGE_SELECTOR", "img")   # selector CSS para la imagen dentro del artículo
 MIN_HTML_SIZE = int(os.getenv("MIN_HTML_SIZE", 1000))
 MIN_ARTICLES = int(os.getenv("MIN_ARTICLES", 1))
 
 # Control de ejecución
-EXECUTION_LOG_FILE = os.getenv("EXECUTION_LOG_FILE", "execution_log.json")
+EXECUTION_LOG_FILE = os.getenv("EXECUTION_LOG_FILE", "data/execution_log.json")
 MIN_INTERVAL = int(os.getenv("MIN_INTERVAL_SECONDS", 300))
 
 # =========================
@@ -53,6 +56,8 @@ metrics = {
     "articles_new": 0,
     "articles_duplicated": 0,
     "articles_total_stored": 0,
+    "images_fetched": 0,
+    "images_failed": 0,
     "duration_seconds": 0,
     "success": False
 }
@@ -75,6 +80,7 @@ def load_execution_log():
 
 def save_execution_log(entry: dict):
     """Guarda una nueva ejecución en la bitácora."""
+    os.makedirs(os.path.dirname(EXECUTION_LOG_FILE), exist_ok=True)
     log = load_execution_log()
     log.append(entry)
     with open(EXECUTION_LOG_FILE, "w", encoding="utf-8") as f:
@@ -89,7 +95,7 @@ def can_execute() -> tuple:
 
     last_execution = log[-1]
     last_time = datetime.fromisoformat(last_execution["timestamp"])
-    now = datetime.utcnow()
+    now = datetime.now(UTC)
     diff = (now - last_time).total_seconds()
 
     if diff < MIN_INTERVAL:
@@ -159,6 +165,95 @@ def merge_news(existing: list, new_articles: list) -> tuple[list, int, int]:
 
 
 # =========================
+# Funciones de imagen
+# =========================
+
+def fetch_image_as_base64(image_url: str) -> str | None:
+    """
+    Descarga una imagen desde su URL y la convierte a base64 data URI.
+
+    El data URI resultante puede usarse directamente en un <img src="...">,
+    sin depender de servidores externos ni CORS.
+
+    Retorna la cadena 'data:<mimetype>;base64,...' o None si falla.
+    """
+    try:
+        headers = {"User-Agent": USER_AGENT}
+        response = requests.get(image_url, headers=headers, timeout=TIMEOUT, stream=True)
+
+        if response.status_code != 200:
+            logging.debug(f"Imagen no descargada ({response.status_code}): {image_url}")
+            return None
+
+        content_type = response.headers.get("Content-Type", "image/jpeg").split(";")[0].strip()
+
+        # Solo aceptar tipos imagen
+        if not content_type.startswith("image/"):
+            logging.debug(f"Content-Type no es imagen: {content_type}")
+            return None
+
+        raw = response.content
+
+        # Limitar peso: ignorar imágenes mayores a 500 KB para no inflar el JSON
+        if len(raw) > 500 * 1024:
+            logging.debug(f"Imagen demasiado grande ({len(raw)} bytes): {image_url}")
+            return None
+
+        encoded = base64.b64encode(raw).decode("utf-8")
+        return f"data:{content_type};base64,{encoded}"
+
+    except Exception as e:
+        logging.debug(f"Error descargando imagen {image_url}: {e}")
+        return None
+
+
+def extract_article_image(article_tag, base_url: str) -> str | None:
+    """
+    Busca la URL de la imagen más relevante asociada a un artículo.
+
+    Estrategia en orden de prioridad:
+      1. og:image en la página del artículo (más confiable, imagen editorial)
+      2. <img> hermano o ancestro cercano del enlace en el listado
+      3. Primer <img> con src válido encontrado en el contenedor padre
+
+    'base_url' se usa para resolver rutas relativas a URLs absolutas.
+    Retorna la URL absoluta de la imagen o None si no se encuentra ninguna.
+    """
+    # Estrategia 1: buscar <img> en el mismo contenedor del enlace
+    container = article_tag.parent
+    for _ in range(3):  # subir hasta 3 niveles
+        if container is None:
+            break
+        img = container.find("img")
+        if img:
+            # img.get() devuelve _AttributeValue — normalizar a str | None
+            raw_src = img.get("src") or img.get("data-src") or img.get("data-lazy-src")
+            src: str | None = (
+                raw_src[0] if isinstance(raw_src, list) and raw_src
+                else str(raw_src) if raw_src is not None
+                else None
+            )
+            if src and not src.startswith("data:"):
+                return urljoin(base_url, src)
+        container = container.parent
+
+    return None
+
+
+def resolve_link(link: str, base_url: str) -> str:
+    """
+    Convierte un href relativo en URL absoluta usando la URL base del sitio.
+
+    Ejemplos:
+      /noticias/123  →  https://www.eluniverso.com/noticias/123
+      https://...    →  sin cambios
+    """
+    if not link:
+        return link
+    return urljoin(base_url, link)
+
+
+# =========================
 # Funciones principales
 # =========================
 
@@ -189,7 +284,14 @@ def get_html(url: str) -> str | None:
 
 
 def parse_news(html: str) -> list:
-    """Parsea HTML y extrae noticias."""
+    """
+    Parsea HTML y extrae noticias con enlace absoluto e imagen.
+
+    Para cada artículo encontrado:
+      - Resuelve el href relativo a URL absoluta usando URL como base
+      - Busca la imagen más relevante en el contenedor del artículo
+      - Registra la URL de la imagen (la descarga base64 ocurre en enrich_with_images)
+    """
     soup = BeautifulSoup(html, "html.parser")
     articles = soup.select(SELECTOR)
 
@@ -197,15 +299,32 @@ def parse_news(html: str) -> list:
 
     for article in articles:
         title = article.get_text(strip=True)
-        link = article.get("href")
 
-        if title and link:
-            results.append({
-                "title": title,
-                "link": link,
-                "scraped_at": datetime.utcnow().isoformat()
-                # Nota: 'id' se asigna en merge_news() solo si es artículo nuevo
-            })
+        # article.get() devuelve _AttributeValue (str | list | None en BeautifulSoup).
+        # Normalizamos a str | None para que resolve_link reciba siempre un tipo seguro.
+        raw_link_attr = article.get("href")
+        if isinstance(raw_link_attr, list):
+            # Caso raro: href con múltiples valores; tomar el primero
+            raw_link: str | None = raw_link_attr[0] if raw_link_attr else None
+        else:
+            raw_link = str(raw_link_attr) if raw_link_attr is not None else None
+
+        if not title or not raw_link:
+            continue
+
+        # Resolver URL relativa → absoluta
+        absolute_link = resolve_link(raw_link, URL)
+
+        # Buscar imagen asociada en el DOM del listado
+        image_url = extract_article_image(article, URL)
+
+        results.append({
+            "title": title,
+            "link": absolute_link,
+            "image_url": image_url,      # URL original (puede ser None)
+            "image_b64": None,           # se rellena en enrich_with_images()
+            "scraped_at": datetime.now(UTC).isoformat()
+        })
 
     metrics["articles_found"] = len(articles)
     return results
@@ -222,6 +341,34 @@ def validate_data(data: list) -> tuple:
     if not data:
         return False, "Lista de datos vacía"
     return True, None
+
+
+def enrich_with_images(articles: list) -> list:
+    """
+    Descarga las imágenes de los artículos nuevos y las embebe como base64.
+
+    Solo procesa artículos que:
+      - Tienen image_url definida
+      - Aún no tienen image_b64 (evita re-descargar en ejecuciones sucesivas)
+
+    Actualiza las métricas images_fetched e images_failed.
+    Retorna la lista modificada in-place.
+    """
+    pending = [a for a in articles if a.get("image_url") and not a.get("image_b64")]
+    logging.info(f"Descargando imágenes para {len(pending)} artículos nuevos...")
+
+    for article in pending:
+        b64 = fetch_image_as_base64(article["image_url"])
+        if b64:
+            article["image_b64"] = b64
+            metrics["images_fetched"] += 1
+            logging.debug(f"Imagen OK: {article['image_url'][:80]}")
+        else:
+            article["image_b64"] = None
+            metrics["images_failed"] += 1
+            logging.debug(f"Imagen fallida: {article['image_url'][:80]}")
+
+    return articles
 
 
 def save_json(data: list):
@@ -279,6 +426,9 @@ def main():
     metrics["articles_duplicated"] = duplicated
     metrics["articles_total_stored"] = len(merged)
 
+    # Descargar imágenes solo para los artículos nuevos
+    merged = enrich_with_images(merged)
+
     save_json(merged)
 
     metrics["success"] = True
@@ -287,7 +437,7 @@ def main():
     print_metrics()
 
     execution_entry = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "metrics": metrics
     }
     save_execution_log(execution_entry)

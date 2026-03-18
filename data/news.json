@@ -1,172 +1,258 @@
 [
   {
+    "title": "Mujer arroja electrodomésticos y objetos desde un edificio del centro de Guayaquil",
+    "link": "https://www.eluniverso.com/guayaquil/comunidad/mujer-arrojo-electrodomesticos-y-objetos-desde-un-edificio-del-centro-de-guayaquil-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.325952",
+    "id": "9fb95b2a-3b6c-4057-ae9d-f14b4af1d4e5"
+  },
+  {
     "title": "Nivel del agua desciende en Babahoyo, mientras pobladores buscan retomar actividades con la limpieza de viviendas y locales",
-    "link": "/noticias/ecuador/el-agua-desciende-en-babahoyo-mientras-pobladores-buscan-retomar-actividades-con-la-limpieza-de-viviendas-y-locales-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481624"
+    "link": "https://www.eluniverso.com/noticias/ecuador/el-agua-desciende-en-babahoyo-mientras-pobladores-buscan-retomar-actividades-con-la-limpieza-de-viviendas-y-locales-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326020",
+    "id": "dade37b8-a6d2-4ac1-810b-11bb28103583"
   },
   {
     "title": "EE. UU. ordena a todas sus embajadas revisar seguridad por escalada del conflicto con Irán",
-    "link": "/noticias/internacional/ee-uu-ordena-a-todas-sus-embajadas-revisar-seguridad-por-escalada-del-conflicto-con-iran-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481640"
+    "link": "https://www.eluniverso.com/noticias/internacional/ee-uu-ordena-a-todas-sus-embajadas-revisar-seguridad-por-escalada-del-conflicto-con-iran-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326050",
+    "id": "d42e3e98-78a3-4254-919a-495b336f9c25"
   },
   {
     "title": "ANT habilita 142 municipios para matriculación vehicular y alcanza el 97 % de servicios",
-    "link": "/noticias/ecuador/ant-habilita-142-municipios-para-matriculacion-vehicular-y-alcanza-el-97-de-servicios-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481644"
-  },
-  {
-    "title": "Ecuador impulsa la iniciativa Taxonomía Verde para inversiones en ambiente",
-    "link": "/noticias/economia/ecuador-impulsa-la-iniciativa-taxonomia-verde-para-inversiones-en-ambiente-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481647"
-  },
-  {
-    "title": "Volqueta se vuelca en la av. Simón Bolívar y deja una víctima mortal",
-    "link": "/noticias/ecuador/quito-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481650"
-  },
-  {
-    "title": "Ovni evitó un conflicto mundial nuclear, según exoficial de la Guerra Fría",
-    "link": "/noticias/internacional/ovni-evito-un-conflicto-mundial-nuclear-segun-exoficial-de-la-guerra-fria-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481652"
-  },
-  {
-    "title": "Debut en el mercado de valores colocando  100 % de emisión de $ 5 millones",
-    "link": "/noticias/economia/debut-en-el-mercado-de-valores-colocando-100-de-emision-de-5-millones-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481654"
-  },
-  {
-    "title": "Gremios colombianos acuerdan compromisos en reunión con autoridades, mientras se mantiene movilización en zona fronteriza",
-    "link": "/noticias/ecuador/gremios-colombianos-acuerdan-compromisos-en-reunion-con-autoridades-mientras-se-mantiene-movilizacion-en-zona-fronteriza-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481656"
-  },
-  {
-    "title": "Perú decomisa una barra de oro ilegal de  $ 600.000 que iba a ser exportada a India",
-    "link": "/noticias/internacional/peru-decomisa-una-barra-de-oro-ilegal-de-600000-que-iba-a-ser-exportada-a-india-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481658"
-  },
-  {
-    "title": "Ministro del Interior: ‘Se está combatiendo el crimen organizado y el narcotráfico dentro del territorio ecuatoriano’",
-    "link": "/noticias/seguridad/ministro-del-interior-se-esta-combatiendo-el-crimen-organizado-y-el-narcotrafico-dentro-del-territorio-ecuatoriano-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481661"
-  },
-  {
-    "title": "Ecuador suma más de 380 detenidos en dos jornadas de operativos de toque de queda",
-    "link": "/noticias/seguridad/ecuador-suma-mas-de-380-detenidos-en-dos-jornadas-de-operativos-de-toque-de-queda-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481663"
-  },
-  {
-    "title": "Correísmo respalda al alcalde de Cuenca tras allanamiento por presunto enriquecimiento ilícito",
-    "link": "/noticias/politica/correismo-respalda-alcalde-de-cuenca-allanamiento-presunto-enriquecimiento-ilicito-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481665"
-  },
-  {
-    "title": "Jueza Daniella Camacho dará a conocer este miércoles si declara la validez procesal en el caso Liga2 o acepta las nulidades expuestas",
-    "link": "/noticias/politica/caso-liga2-jueza-daniella-camacho-dara-conocer-miercoles-declara-validez-procesal-o-acepta-nulidades-expuestas-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481667"
-  },
-  {
-    "title": "Benjamin Netanyahu aparece nuevamente en público y afirma que “eliminará a los lunáticos”",
-    "link": "/noticias/internacional/benjamin-netanyahu-aparece-nuevamente-en-publico-y-afirma-que-eliminara-a-los-lunaticos-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481669"
-  },
-  {
-    "title": "Presos deberán trabajar para cubrir sus necesidades: esto plantea la ley que fortalece el sistema penitenciario",
-    "link": "/noticias/politica/presos-deberan-trabajar-cubrir-necesidades-ley-fortalece-sistema-penitenciario-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481671"
-  },
-  {
-    "title": "Quito registra 16 % menos reportes de inundaciones, a pesar de récord de lluvias en 2026",
-    "link": "/noticias/ecuador/quito-ecuador-emergencias-plan-de-lluvias-emergencias-por-lluvias-en-quito-temporada-de-lluvias-en-quito-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481674"
-  },
-  {
-    "title": "Nivel del agua desciende en Babahoyo, mientras pobladores buscan retomar actividades con la limpieza de viviendas y locales",
-    "link": "/noticias/ecuador/el-agua-desciende-en-babahoyo-mientras-pobladores-buscan-retomar-actividades-con-la-limpieza-de-viviendas-y-locales-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481676"
-  },
-  {
-    "title": "Guardia iraní confirma muerte de Gholamreza Soleimani por bombardeos",
-    "link": "/noticias/internacional/guardia-irani-confirma-muerte-de-gholamreza-soleimani-por-bombardeos-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481678"
-  },
-  {
-    "title": "Así votaron los asambleístas por la ley para el fortalecimiento del sistema penitenciario",
-    "link": "/noticias/politica/ley-fortalecimiento-sistema-penitenciario-votacion-asamblea-nacional-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481680"
-  },
-  {
-    "title": "EE. UU. ordena a todas sus embajadas revisar seguridad por escalada del conflicto con Irán",
-    "link": "/noticias/internacional/ee-uu-ordena-a-todas-sus-embajadas-revisar-seguridad-por-escalada-del-conflicto-con-iran-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481682"
-  },
-  {
-    "title": "Ley para fortalecer el sistema penitenciario se aprueba en la Asamblea Nacional con 84 votos",
-    "link": "/noticias/politica/asamblea-nacional-aprueba-ley-fortalecer-sistema-penitenciario-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481684"
-  },
-  {
-    "title": "250 toneladas de TNT: El inusual meteorito que cayó en EE. UU.",
-    "link": "/noticias/internacional/250-toneladas-de-tnt-el-inusual-meteorito-que-cayo-en-ee-uu-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481686"
-  },
-  {
-    "title": "Capturan a hermano de supuesto cabecilla de Los Lobos que operaba desde cárcel en Cotopaxi para planear secuestros",
-    "link": "/noticias/seguridad/manabi-ecuador-fuerzas-armadas-seguridad-cotopaxi-capturan-a-alias-palacio-cabecilla-de-los-lobos-capturado-en-quito-captura-a-cabecilla-de-los-lobos-en-manabi-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481688"
-  },
-  {
-    "title": "Lluvias en Ecuador suman 14 muertos y 58.449 afectados en 121 cantones",
-    "link": "/noticias/ecuador/balance-de-lluvias-2026-deja-muertos-miles-de-afectados-y-emergencia-nacional-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481690"
-  },
-  {
-    "title": "Universidad Católica gana 1-0 a Deportivo Cuenca en un partido lleno de imprecisiones",
-    "link": "/deportes/campeonato-ecuatoriano/universidad-catolica-gana-1-0-a-deportivo-cuenca-en-un-partido-lleno-de-imprecisiones-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481692"
-  },
-  {
-    "title": "Mujer arroja electrodomésticos y objetos desde un edificio del centro de Guayaquil",
-    "link": "/guayaquil/comunidad/mujer-arrojo-electrodomesticos-y-objetos-desde-un-edificio-del-centro-de-guayaquil-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481694"
-  },
-  {
-    "title": "León XIV pide dar respuestas a ‘los abusos y explotación’ que sufre la Amazonía",
-    "link": "/noticias/internacional/leon-xiv-pide-dar-respuestas-a-los-abusos-y-explotacion-que-sufre-la-amazonia-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481696"
-  },
-  {
-    "title": "Laura Esquivel y Brenda Aniscar, el renacer de ‘Patito Feo’ en la gira ‘Amigas del Corazón’: “Es una historia que pueda llegarle al corazón a un niño y también a su padre”",
-    "link": "/entretenimiento/musica/laura-esquivel-y-brenda-aniscar-el-renacer-de-patito-feo-en-la-gira-amigas-del-corazon-es-una-historia-que-pueda-llegarle-al-corazon-a-un-nino-y-tambien-a-su-padre-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481698"
-  },
-  {
-    "title": "Un menor de 13 años fue detenido, salió libre y ahora aparece disparando un fusil en atentado: la Policía lo busca nuevamente en Manabí",
-    "link": "/noticias/seguridad/un-menor-de-13-anos-fue-detenido-salio-libre-y-ahora-aparece-disparando-un-fusil-en-atentado-criminal-policia-lo-busca-nuevamente-en-manabi-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481699"
-  },
-  {
-    "title": "Francisco Egas, reelecto presidente de la FEF: estos son los 3 impactos deportivos",
-    "link": "/deportes/futbol/francisco-egas-reelecto-presidente-de-la-fef-estos-son-los-3-impactos-deportivos-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481701"
-  },
-  {
-    "title": "Dónde ver En Vivo FC Barcelona vs. Newcastle por la vuelta de los octavos de final de Champions League",
-    "link": "/deportes/futbol/donde-ver-en-vivo-fc-barcelona-vs-newcastle-por-la-vuelta-de-los-octavos-de-final-de-champions-league-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481703"
+    "link": "https://www.eluniverso.com/noticias/ecuador/ant-habilita-142-municipios-para-matriculacion-vehicular-y-alcanza-el-97-de-servicios-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326108",
+    "id": "4881e82f-c643-4804-af41-a99951e052d7"
   },
   {
     "title": "Ecuador y la Unión Europea amplían programa de cooperación y seguridad fronteriza",
-    "link": "/noticias/seguridad/ecuador-y-la-union-europea-amplian-programa-de-cooperacion-y-seguridad-fronteriza-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481704"
-  },
-  {
-    "title": "Real Madrid elimina 1-2 al Manchester City en su casa y avanza a cuartos de final de la Champions League",
-    "link": "/deportes/futbol/real-madrid-elimina-1-2-al-manchester-city-en-su-casa-y-avanza-a-cuartos-de-final-de-la-champions-league-nota/",
-    "scraped_at": "2026-03-18T00:05:43.481706"
+    "link": "https://www.eluniverso.com/noticias/seguridad/ecuador-y-la-union-europea-amplian-programa-de-cooperacion-y-seguridad-fronteriza-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326141",
+    "id": "a3738180-3ade-4636-9af7-dcb5a2ac8125"
   },
   {
     "title": "Así será el horario del Pico y Placa en Quito para este miércoles, 18 de marzo de 2026",
-    "link": "/noticias/ecuador/quito-transito-pico-y-placa-multas-nota-214/",
-    "scraped_at": "2026-03-18T00:05:43.481707"
+    "link": "https://www.eluniverso.com/noticias/ecuador/quito-transito-pico-y-placa-multas-nota-214/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326165",
+    "id": "5dd7499b-1321-43ee-b0db-065d9d9efad5"
+  },
+  {
+    "title": "Volqueta se vuelca en la av. Simón Bolívar y deja una víctima mortal",
+    "link": "https://www.eluniverso.com/noticias/ecuador/quito-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326187",
+    "id": "c6549505-1839-45ba-bbcd-0ee62acf16fb"
+  },
+  {
+    "title": "Debut en el mercado de valores colocando  100 % de emisión de $ 5 millones",
+    "link": "https://www.eluniverso.com/noticias/economia/debut-en-el-mercado-de-valores-colocando-100-de-emision-de-5-millones-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326208",
+    "id": "2376a469-883c-495c-bc6e-da1e8bafe6c0"
+  },
+  {
+    "title": "Ovni evitó un conflicto mundial nuclear, según exoficial de la Guerra Fría",
+    "link": "https://www.eluniverso.com/noticias/internacional/ovni-evito-un-conflicto-mundial-nuclear-segun-exoficial-de-la-guerra-fria-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326229",
+    "id": "af0c9877-9c97-4fcf-89c3-d1f9b1e25441"
+  },
+  {
+    "title": "Gremios colombianos acuerdan compromisos en reunión con autoridades, mientras se mantiene movilización en zona fronteriza",
+    "link": "https://www.eluniverso.com/noticias/ecuador/gremios-colombianos-acuerdan-compromisos-en-reunion-con-autoridades-mientras-se-mantiene-movilizacion-en-zona-fronteriza-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326249",
+    "id": "b54a1211-50d8-4643-a4b8-9969ca8bbb51"
+  },
+  {
+    "title": "Perú decomisa una barra de oro ilegal de  $ 600.000 que iba a ser exportada a India",
+    "link": "https://www.eluniverso.com/noticias/internacional/peru-decomisa-una-barra-de-oro-ilegal-de-600000-que-iba-a-ser-exportada-a-india-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326269",
+    "id": "a63b5c12-46e7-4e4e-93e0-5c478fbcb7d6"
+  },
+  {
+    "title": "Ministro del Interior: ‘Se está combatiendo el crimen organizado y el narcotráfico dentro del territorio ecuatoriano’",
+    "link": "https://www.eluniverso.com/noticias/seguridad/ministro-del-interior-se-esta-combatiendo-el-crimen-organizado-y-el-narcotrafico-dentro-del-territorio-ecuatoriano-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326289",
+    "id": "ef7d9aa7-49e0-4e60-a19b-cec8fdeb5ad4"
+  },
+  {
+    "title": "Ecuador suma más de 380 detenidos en dos jornadas de operativos de toque de queda",
+    "link": "https://www.eluniverso.com/noticias/seguridad/ecuador-suma-mas-de-380-detenidos-en-dos-jornadas-de-operativos-de-toque-de-queda-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326305",
+    "id": "1cc4ab3b-e7b4-40e9-b3a5-886a1e7d2590"
+  },
+  {
+    "title": "Correísmo respalda al alcalde de Cuenca tras allanamiento por presunto enriquecimiento ilícito",
+    "link": "https://www.eluniverso.com/noticias/politica/correismo-respalda-alcalde-de-cuenca-allanamiento-presunto-enriquecimiento-ilicito-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326324",
+    "id": "59b619b0-ad8b-408a-8fdb-695fe566175d"
+  },
+  {
+    "title": "Jueza Daniella Camacho dará a conocer este miércoles si declara la validez procesal en el caso Liga2 o acepta las nulidades expuestas",
+    "link": "https://www.eluniverso.com/noticias/politica/caso-liga2-jueza-daniella-camacho-dara-conocer-miercoles-declara-validez-procesal-o-acepta-nulidades-expuestas-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326343",
+    "id": "0a0136a4-e345-47b4-b0b6-f891a8229bbb"
+  },
+  {
+    "title": "Benjamin Netanyahu aparece nuevamente en público y afirma que “eliminará a los lunáticos”",
+    "link": "https://www.eluniverso.com/noticias/internacional/benjamin-netanyahu-aparece-nuevamente-en-publico-y-afirma-que-eliminara-a-los-lunaticos-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326362",
+    "id": "f0ac4e16-573a-47ec-9f3c-913d5bdc0c48"
+  },
+  {
+    "title": "Presos deberán trabajar para cubrir sus necesidades: esto plantea la ley que fortalece el sistema penitenciario",
+    "link": "https://www.eluniverso.com/noticias/politica/presos-deberan-trabajar-cubrir-necesidades-ley-fortalece-sistema-penitenciario-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326380",
+    "id": "726a880f-a627-4b54-be55-14d70d7bec57"
+  },
+  {
+    "title": "Quito registra 16 % menos reportes de inundaciones, a pesar de récord de lluvias en 2026",
+    "link": "https://www.eluniverso.com/noticias/ecuador/quito-ecuador-emergencias-plan-de-lluvias-emergencias-por-lluvias-en-quito-temporada-de-lluvias-en-quito-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326400",
+    "id": "5363f611-3fd3-49fa-ae4a-d5857d0ddabf"
+  },
+  {
+    "title": "Guardia iraní confirma muerte de Gholamreza Soleimani por bombardeos",
+    "link": "https://www.eluniverso.com/noticias/internacional/guardia-irani-confirma-muerte-de-gholamreza-soleimani-por-bombardeos-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326439",
+    "id": "6ed4b260-4fbc-4776-b379-9772f55820cc"
+  },
+  {
+    "title": "Así votaron los asambleístas por la ley para el fortalecimiento del sistema penitenciario",
+    "link": "https://www.eluniverso.com/noticias/politica/ley-fortalecimiento-sistema-penitenciario-votacion-asamblea-nacional-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326460",
+    "id": "12abd638-5a58-4a88-94f7-e8154b1b2d83"
+  },
+  {
+    "title": "Ley para fortalecer el sistema penitenciario se aprueba en la Asamblea Nacional con 84 votos",
+    "link": "https://www.eluniverso.com/noticias/politica/asamblea-nacional-aprueba-ley-fortalecer-sistema-penitenciario-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326494",
+    "id": "465f073e-60a0-4a1a-a25b-4e4ed282079f"
+  },
+  {
+    "title": "250 toneladas de TNT: El inusual meteorito que cayó en EE. UU.",
+    "link": "https://www.eluniverso.com/noticias/internacional/250-toneladas-de-tnt-el-inusual-meteorito-que-cayo-en-ee-uu-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326510",
+    "id": "f03eba5e-4b63-4853-b3ad-c957cdb65012"
+  },
+  {
+    "title": "Grupo Firme incluye a Quito en su gira internacional ‘La Última Peda 2026′",
+    "link": "https://www.eluniverso.com/entretenimiento/musica/grupo-firme-incluye-a-quito-en-su-gira-internacional-la-ultima-peda-2026-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326530",
+    "id": "ec8eaecd-c491-4c56-a47b-32083ebb4799"
+  },
+  {
+    "title": "Un muerto por choque entre dos vehículos en la vía Cuenca-Azogues",
+    "link": "https://www.eluniverso.com/noticias/ecuador/un-muerto-por-choque-entre-dos-vehiculos-en-la-via-cuenca-azogues-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326547",
+    "id": "6b509f0a-5213-4848-8fb6-213333587c9f"
+  },
+  {
+    "title": "Cynthia Gellibert: ‘actuamos con decisión para devolver la paz a nuestra gente’",
+    "link": "https://www.eluniverso.com/noticias/politica/cynthia-gellibert-actuamos-con-decision-para-devolver-la-paz-a-nuestra-gente-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326565",
+    "id": "7e08e281-6ca9-4a75-9877-fedb90273b2b"
+  },
+  {
+    "title": "Grupo guayaquileño estrena ‘Dirección gritadero’, teatro del absurdo y comedia negra, este jueves 19 de marzo",
+    "link": "https://www.eluniverso.com/entretenimiento/teatro/grupo-guayaquileno-estrena-direccion-gritadero-teatro-del-absurdo-y-comedia-negra-este-jueves-19-de-marzo-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326587",
+    "id": "92754290-c419-4f51-97c8-a699e3695ed6"
+  },
+  {
+    "title": "Universidad Católica gana 1-0 al Deportivo Cuenca en un partido lleno de imprecisiones",
+    "link": "https://www.eluniverso.com/deportes/campeonato-ecuatoriano/universidad-catolica-gana-1-0-a-deportivo-cuenca-en-un-partido-lleno-de-imprecisiones-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326607",
+    "id": "0e46a22d-9470-424c-82f6-840a534500af"
+  },
+  {
+    "title": "León XIV pide dar respuestas a ‘los abusos y explotación’ que sufre la Amazonía",
+    "link": "https://www.eluniverso.com/noticias/internacional/leon-xiv-pide-dar-respuestas-a-los-abusos-y-explotacion-que-sufre-la-amazonia-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326642",
+    "id": "abf52b80-5ed2-44d3-bef4-aa8595fa2a13"
+  },
+  {
+    "title": "Laura Esquivel y Brenda Aniscar, el renacer de ‘Patito Feo’ en la gira ‘Amigas del Corazón’: “Es una historia que pueda llegarle al corazón a un niño y también a su padre”",
+    "link": "https://www.eluniverso.com/entretenimiento/musica/laura-esquivel-y-brenda-aniscar-el-renacer-de-patito-feo-en-la-gira-amigas-del-corazon-es-una-historia-que-pueda-llegarle-al-corazon-a-un-nino-y-tambien-a-su-padre-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326663",
+    "id": "af622f07-ceba-43ca-b8e0-b056cfe41e85"
+  },
+  {
+    "title": "Un menor de 13 años fue detenido, salió libre y ahora aparece disparando un fusil en atentado: la Policía lo busca nuevamente en Manabí",
+    "link": "https://www.eluniverso.com/noticias/seguridad/un-menor-de-13-anos-fue-detenido-salio-libre-y-ahora-aparece-disparando-un-fusil-en-atentado-criminal-policia-lo-busca-nuevamente-en-manabi-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326682",
+    "id": "d9b73f60-8acb-48d9-90b4-15847946457e"
+  },
+  {
+    "title": "Dónde ver En Vivo FC Barcelona vs. Newcastle por la vuelta de los octavos de final de Champions League",
+    "link": "https://www.eluniverso.com/deportes/futbol/donde-ver-en-vivo-fc-barcelona-vs-newcastle-por-la-vuelta-de-los-octavos-de-final-de-champions-league-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:34:37.326702",
+    "id": "84fb69e5-e1a6-4cd2-9284-6a510ee6a87f"
+  },
+  {
+    "title": "Histórico en la Copa África: Marruecos es declarado campeón tras la descalificación de Senegal por la CAF",
+    "link": "https://www.eluniverso.com/deportes/futbol/historico-en-la-copa-africa-marruecos-es-declarado-campeon-tras-la-descalificacion-de-senegal-por-la-caf-nota/",
+    "image_url": null,
+    "image_b64": null,
+    "scraped_at": "2026-03-18T00:55:39.582733",
+    "id": "a7722a08-0912-488f-991d-f62afe37a960"
   }
 ]
